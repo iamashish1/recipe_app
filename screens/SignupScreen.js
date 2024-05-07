@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Alert,Pressable } from 'react-native';
 import firebase from '../firebase_config/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase_config/firebase';
@@ -41,7 +41,10 @@ export default function SignupScreen({ navigation }) {
                 secureTextEntry
                 style={authStyle.textInput}
             />
-            <Button title="Signup" onPress={handleSignup} />
+            <Pressable title="Signup" onPress={handleSignup} style={authStyle.button} >
+            <Text style={{ color: 'white',fontWeight:'600', alignSelf: 'center' }}>SignUp</Text>
+            </Pressable>
+         
         </View>
     );
 }

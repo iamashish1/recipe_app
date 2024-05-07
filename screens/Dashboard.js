@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, Button, ActivityIndicator, Image, StyleSheet, FlatList, TextInput } from 'react-native';
+import { View, Text, Button, ActivityIndicator, Image, Pressable, StyleSheet, FlatList, TextInput } from 'react-native';
 import { auth, db } from '../firebase_config/firebase';
 import { signOut } from 'firebase/auth';
 import { collection, getDocs, query } from 'firebase/firestore';
-
+import { authStyle } from '../styles/auth_style';
 export default function DashboardScreen({ navigation }) {
     const [isDataFetching, setFetchingStatus] = useState(true);
     const [recipes, setRecipes] = useState([]);
@@ -12,18 +12,22 @@ export default function DashboardScreen({ navigation }) {
 
     const handleLogout = () => {
         signOut(auth)
-            .then(() => {})
+            .then(() => { })
             .catch(error => {
                 console.log('Error:', error);
             });
     };
-    // const handleNavigation=()=>{}
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            
+
             headerRight: () => (
-                <Button onPress={handleLogout} title="Logout" />
+
+                <Pressable title="Signup" onPress={handleLogout} style={[authStyle.button, authStyle.horizontalPadding]} >
+                    <Text style={{ color: 'white', fontWeight: '600', alignSelf: 'center' }}>Logout</Text>
+                </Pressable>
+
+
             ),
         });
     }, [navigation]);
@@ -70,15 +74,15 @@ export default function DashboardScreen({ navigation }) {
                             dish={item.dish}
                             description={item.description}
                             imageUrl={item.imageUrl}
-                            onViewRecipe={() =>{
+                            onViewRecipe={() => {
 
-                                console.log("JHDSBCJHDS")
+
 
                                 console.log(item.id)
                                 console.log(navigation)
                                 navigation.navigate('DetailRecipe', { documentId: item.id })
                                 // navigation.navigate('DetailRecipe', { documentId: item.id })
-                            } } // Navigate to DetailRecipeScreen with document ID
+                            }} // Navigate to DetailRecipeScreen with document ID
                         />
                     )}
                     keyExtractor={(item) => item.id} // Use document ID as the key
@@ -95,7 +99,10 @@ const Card = ({ dish, description, imageUrl, onViewRecipe }) => {
             <Image source={{ uri: imageUrl }} style={styles.image} />
             <Text style={styles.title}>{dish}</Text>
             <Text style={styles.description}>{description}</Text>
-            <Button title="View Recipe" onPress={onViewRecipe} />
+            <Pressable title="Signup" onPress={onViewRecipe} style={authStyle.button} >
+                <Text style={{ color: 'white', fontWeight: '600', alignSelf: 'center' }}>View Recipe</Text>
+            </Pressable>
+
 
         </View>
     );
